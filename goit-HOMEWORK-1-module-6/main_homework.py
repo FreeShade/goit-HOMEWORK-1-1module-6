@@ -71,19 +71,16 @@ def normalize(filename):
         "Я": "Ya",
     }
 
-    # Транслітерація кириличних символів
-    normalized_filename = ""
+    normalized = ""
     for char in filename:
-        if char.isalpha() and char.islower():
-            normalized_filename += translit_dict.get(char, "_")
-        elif char.isalpha() and char.isupper():
-            normalized_filename += translit_dict.get(char.lower(), "_").upper()
-        elif char.isdigit():
-            normalized_filename += char
+        if char.isalpha() and char in translit_dict:
+            normalized += translit_dict[char]
+        elif char.isalpha() or char.isdigit():
+            normalized += char
         else:
-            normalized_filename += "_"
+            normalized += "_"
 
-    return normalized_filename
+    return normalized
 
 
 def process_folder(folder_path):
@@ -123,7 +120,7 @@ def process_folder(folder_path):
             shutil.move(file_path, destination_path)
 
 
-if __name__ == "__main__":
+def main():
     import sys
 
     if len(sys.argv) < 2:
@@ -132,3 +129,7 @@ if __name__ == "__main__":
 
     folder_path = sys.argv[1]
     process_folder(folder_path)
+
+
+if __name__ == "__main__":
+    main()
